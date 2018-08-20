@@ -1,0 +1,570 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "import seaborn as sns\n",
+    "% matplotlib inline"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Unnamed: 0</th>\n",
+       "      <th>Id</th>\n",
+       "      <th>Name</th>\n",
+       "      <th>Year</th>\n",
+       "      <th>Gender</th>\n",
+       "      <th>State</th>\n",
+       "      <th>Count</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>11349</td>\n",
+       "      <td>11350</td>\n",
+       "      <td>Emma</td>\n",
+       "      <td>2004</td>\n",
+       "      <td>F</td>\n",
+       "      <td>AK</td>\n",
+       "      <td>62</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>11350</td>\n",
+       "      <td>11351</td>\n",
+       "      <td>Madison</td>\n",
+       "      <td>2004</td>\n",
+       "      <td>F</td>\n",
+       "      <td>AK</td>\n",
+       "      <td>48</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>11351</td>\n",
+       "      <td>11352</td>\n",
+       "      <td>Hannah</td>\n",
+       "      <td>2004</td>\n",
+       "      <td>F</td>\n",
+       "      <td>AK</td>\n",
+       "      <td>46</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>11352</td>\n",
+       "      <td>11353</td>\n",
+       "      <td>Grace</td>\n",
+       "      <td>2004</td>\n",
+       "      <td>F</td>\n",
+       "      <td>AK</td>\n",
+       "      <td>44</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>11353</td>\n",
+       "      <td>11354</td>\n",
+       "      <td>Emily</td>\n",
+       "      <td>2004</td>\n",
+       "      <td>F</td>\n",
+       "      <td>AK</td>\n",
+       "      <td>41</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Unnamed: 0     Id     Name  Year Gender State  Count\n",
+       "0       11349  11350     Emma  2004      F    AK     62\n",
+       "1       11350  11351  Madison  2004      F    AK     48\n",
+       "2       11351  11352   Hannah  2004      F    AK     46\n",
+       "3       11352  11353    Grace  2004      F    AK     44\n",
+       "4       11353  11354    Emily  2004      F    AK     41"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "url = 'https://raw.githubusercontent.com/guipsamora/pandas_exercises/master/06_Stats/US_Baby_Names/US_Baby_Names_right.csv'\n",
+    "baby_names = pd.read_csv(url)\n",
+    "baby_names.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['Unnamed: 0', 'Id', 'Name', 'Year', 'Gender', 'State', 'Count']"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "column_names = list(baby_names.columns)\n",
+    "column_names"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Delete unnamed column"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'Unnamed: 0'"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "drop_col = column_names[0]\n",
+    "drop_col"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Id</th>\n",
+       "      <th>Name</th>\n",
+       "      <th>Year</th>\n",
+       "      <th>Gender</th>\n",
+       "      <th>State</th>\n",
+       "      <th>Count</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>11350</td>\n",
+       "      <td>Emma</td>\n",
+       "      <td>2004</td>\n",
+       "      <td>F</td>\n",
+       "      <td>AK</td>\n",
+       "      <td>62</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>11351</td>\n",
+       "      <td>Madison</td>\n",
+       "      <td>2004</td>\n",
+       "      <td>F</td>\n",
+       "      <td>AK</td>\n",
+       "      <td>48</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>11352</td>\n",
+       "      <td>Hannah</td>\n",
+       "      <td>2004</td>\n",
+       "      <td>F</td>\n",
+       "      <td>AK</td>\n",
+       "      <td>46</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>11353</td>\n",
+       "      <td>Grace</td>\n",
+       "      <td>2004</td>\n",
+       "      <td>F</td>\n",
+       "      <td>AK</td>\n",
+       "      <td>44</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>11354</td>\n",
+       "      <td>Emily</td>\n",
+       "      <td>2004</td>\n",
+       "      <td>F</td>\n",
+       "      <td>AK</td>\n",
+       "      <td>41</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "      Id     Name  Year Gender State  Count\n",
+       "0  11350     Emma  2004      F    AK     62\n",
+       "1  11351  Madison  2004      F    AK     48\n",
+       "2  11352   Hannah  2004      F    AK     46\n",
+       "3  11353    Grace  2004      F    AK     44\n",
+       "4  11354    Emily  2004      F    AK     41"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "baby_names.drop([drop_col], axis=1, inplace=True)\n",
+    "baby_names.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Frequency of Male vs Female"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<matplotlib.axes._subplots.AxesSubplot at 0x7fa0b7a7bd68>"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "baby_names['Gender'].value_counts().plot(kind='barh')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Gender\n",
+       "F    558846\n",
+       "M    457549\n",
+       "Name: Gender, dtype: int64"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "gender_count = baby_names['Gender'].groupby(baby_names['Gender']).count()\n",
+    "gender_count.sort_values(ascending=False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Name\n",
+       "Riley     1112\n",
+       "Avery     1080\n",
+       "Jordan    1073\n",
+       "Peyton    1064\n",
+       "Hayden    1049\n",
+       "Name: Name, dtype: int64"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "name_count = baby_names['Name'].groupby(baby_names['Name']).count()\n",
+    "name_count.sort_values(ascending=False).head(5)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "median = np.median(name_count)\n",
+    "criteria = name_count == median"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Name\n",
+       "Abubakar     8\n",
+       "Adelie       8\n",
+       "Adira        8\n",
+       "Adylene      8\n",
+       "Aerial       8\n",
+       "Aidric       8\n",
+       "Akari        8\n",
+       "Alaiya       8\n",
+       "Alara        8\n",
+       "Alazay       8\n",
+       "Alder        8\n",
+       "Aleana       8\n",
+       "Aleksey      8\n",
+       "Alin         8\n",
+       "Alliana      8\n",
+       "Alon         8\n",
+       "Alyn         8\n",
+       "Alysse       8\n",
+       "Amaryllis    8\n",
+       "Ambree       8\n",
+       "Ameir        8\n",
+       "Amer         8\n",
+       "Amyri        8\n",
+       "Andrae       8\n",
+       "Andriana     8\n",
+       "Anely        8\n",
+       "Annahi       8\n",
+       "Annel        8\n",
+       "Anshul       8\n",
+       "Anthoni      8\n",
+       "            ..\n",
+       "Tuff         8\n",
+       "Vanna        8\n",
+       "Vlad         8\n",
+       "Waseem       8\n",
+       "Willian      8\n",
+       "Woodrow      8\n",
+       "Xitlalli     8\n",
+       "Xzander      8\n",
+       "Yaira        8\n",
+       "Yakira       8\n",
+       "Yanni        8\n",
+       "Yanuel       8\n",
+       "Yared        8\n",
+       "Yaritzi      8\n",
+       "Yishai       8\n",
+       "Yliana       8\n",
+       "Yoni         8\n",
+       "Yonis        8\n",
+       "Ysabelle     8\n",
+       "Yudith       8\n",
+       "Yug          8\n",
+       "Yuliza       8\n",
+       "Yunuen       8\n",
+       "Yvanna       8\n",
+       "Zakia        8\n",
+       "Zamaya       8\n",
+       "Zanaya       8\n",
+       "Zari         8\n",
+       "Zaylie       8\n",
+       "Zyanna       8\n",
+       "Name: Name, Length: 360, dtype: int64"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "median_names = name_count[criteria]\n",
+    "median_names"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### distribution of male and female born county by states"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Gender  State\n",
+       "F       AK        2404\n",
+       "        AL        9878\n",
+       "        AR        7171\n",
+       "        AZ       14518\n",
+       "        CA       45144\n",
+       "        CO       11424\n",
+       "        CT        6575\n",
+       "        DC        3053\n",
+       "        DE        2549\n",
+       "        FL       25781\n",
+       "        GA       19385\n",
+       "        HI        3255\n",
+       "        IA        7131\n",
+       "        ID        4918\n",
+       "        IL       21268\n",
+       "        IN       13056\n",
+       "        KS        7753\n",
+       "        KY        8817\n",
+       "        LA       10510\n",
+       "        MA       10580\n",
+       "        MD       11276\n",
+       "        ME        2976\n",
+       "        MI       16038\n",
+       "        MN       10677\n",
+       "        MO       11948\n",
+       "        MS        7235\n",
+       "        MT        2690\n",
+       "        NC       17357\n",
+       "        ND        2399\n",
+       "        NE        5370\n",
+       "                 ...  \n",
+       "M       ME        2777\n",
+       "        MI       13243\n",
+       "        MN        9004\n",
+       "        MO        9917\n",
+       "        MS        6862\n",
+       "        MT        2986\n",
+       "        NC       13530\n",
+       "        ND        2581\n",
+       "        NE        5029\n",
+       "        NH        2659\n",
+       "        NJ       12274\n",
+       "        NM        4966\n",
+       "        NV        6024\n",
+       "        NY       22585\n",
+       "        OH       14318\n",
+       "        OK        8138\n",
+       "        OR        7333\n",
+       "        PA       14171\n",
+       "        RI        2468\n",
+       "        SC        8195\n",
+       "        SD        2908\n",
+       "        TN       10588\n",
+       "        TX       27791\n",
+       "        UT        8233\n",
+       "        VA       11997\n",
+       "        VT        1618\n",
+       "        WA       11049\n",
+       "        WI        8940\n",
+       "        WV        3733\n",
+       "        WY        1904\n",
+       "Length: 102, dtype: int64"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "baby_names.groupby(['Gender', 'State']).size()"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
